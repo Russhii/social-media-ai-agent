@@ -4,11 +4,20 @@ import { useFormStatus } from "react-dom";
 import type { InputHTMLAttributes, ReactNode } from "react";
 
 export function AuthCard({ eyebrow, title, subtitle, children }: { eyebrow: string; title: string; subtitle: string; children: ReactNode }) {
-  return <main className="auth-shell"><div className="auth-orb auth-orb-one" /><div className="auth-orb auth-orb-two" /><section className="auth-card">
-    <a className="auth-brand" href="/sign-in" aria-label="Socially home"><span className="auth-brand-mark">s</span><span>socially</span></a>
-    <p className="auth-eyebrow">{eyebrow}</p><h1>{title}</h1><p className="auth-subtitle">{subtitle}</p>{children}
-    <p className="auth-legal">By continuing, you agree to our <a href="#terms">Terms</a> and <a href="#privacy">Privacy Policy</a>.</p>
-  </section><p className="auth-caption">Less busywork. More meaningful growth.</p></main>;
+  return <main className="auth-shell"><div className="auth-layout">
+    <aside className="auth-showcase">
+      <a className="auth-brand auth-brand-showcase" href="/sign-in" aria-label="Socially home"><span className="auth-brand-mark">s</span><span>socially</span></a>
+      <div className="auth-showcase-content"><span className="auth-showcase-kicker"><i /> YOUR CREATIVE HQ</span><h2>Make room for<br />your <em>next big idea.</em></h2><p>One calm workspace for better content, sharper campaigns, and more consistent growth.</p>
+        <div className="auth-showcase-art" aria-hidden="true"><div className="showcase-orbit orbit-one" /><div className="showcase-orbit orbit-two" /><div className="showcase-spark">✦</div><div className="showcase-card showcase-card-back"><span className="showcase-dot" /><span /><span /></div><div className="showcase-card showcase-card-front"><span className="showcase-mini-mark">s</span><span className="showcase-lines"><i /><i /><i /></span><span className="showcase-art-arrow">↗</span></div><div className="showcase-floating floating-one">✧</div><div className="showcase-floating floating-two">●</div></div>
+      </div>
+      <div className="auth-showcase-foot"><span>DESIGNED TO KEEP YOU IN FLOW</span><span>01 <i /> 03</span></div>
+    </aside>
+    <section className="auth-card">
+      <div className="auth-mobile-brand"><a className="auth-brand" href="/sign-in"><span className="auth-brand-mark">s</span><span>socially</span></a><span className="auth-mobile-kicker">YOUR CREATIVE HQ</span></div>
+      <p className="auth-eyebrow">{eyebrow}</p><h1>{title}</h1><p className="auth-subtitle">{subtitle}</p>{children}
+      <p className="auth-legal">By continuing, you agree to our <a href="#terms">Terms</a> and <a href="#privacy">Privacy Policy</a>.</p>
+    </section>
+  </div><p className="auth-caption">Less busywork. More meaningful growth.</p></main>;
 }
 
 export function AuthField({ id, label, ...props }: InputHTMLAttributes<HTMLInputElement> & { id: string; label: string }) {

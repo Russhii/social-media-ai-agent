@@ -3,11 +3,17 @@ import { signUpAction, googleSignInAction } from "@/app/actions/auth";
 import { AuthCard, AuthError, AuthField, GoogleButton, SubmitButton } from "@/app/components/auth-ui";
 import { createInsForgeServerClient } from "@/app/lib/insforge/server";
 import { redirect } from "next/navigation";
+import { getUserCampaign } from "@/app/lib/campaigns";
 
 export default async function SignUpPage({ searchParams }: { searchParams: Promise<{ error?: string }> }) {
   const insforge = await createInsForgeServerClient();
   const { data: session } = await insforge.auth.getCurrentUser();
-  if (session.user) redirect("/dashboard");
+  if (session.user) {
+    let hasCampaign = false;
+    try { hasCampaign = Boolean(await getUserCampaign(session.user.id)); }
+    catch { redirect("/create-campaign?error=campaign_lookup"); }
+    redirect(hasCampaign ? "/dashboard" : "/create-campaign");
+  }
   const params = await searchParams;
   return (
     <AuthCard eyebrow="GET STARTED" title="Create your workspace" subtitle="Plan, create, and grow your social presence in one place.">

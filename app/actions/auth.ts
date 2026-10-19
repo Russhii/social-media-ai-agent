@@ -3,6 +3,7 @@
 import { createAuthActions } from "@insforge/sdk/ssr";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import { getUserCampaign } from "@/app/lib/campaigns";
 
 async function auth() {
   return createAuthActions({ cookies: await cookies() });
@@ -18,7 +19,7 @@ export async function signInAction(formData: FormData) {
   if (!email || !password) fail("/sign-in", "Enter your email and password.");
   const { data, error } = await (await auth()).signInWithPassword({ email, password });
   if (error || !data?.user) fail("/sign-in", error?.message ?? "Unable to sign in.");
-  redirect("/dashboard");
+  redirect(await destinationFor(data.user.id));
 }
 
 export async function signUpAction(formData: FormData) {
@@ -37,7 +38,7 @@ export async function signUpAction(formData: FormData) {
   if (error) fail("/sign-up", error.message);
   if (data?.requireEmailVerification) redirect(`/verify-email?email=${encodeURIComponent(email)}`);
   if (!data?.user) fail("/sign-up", "Your account could not be created. Please try again.");
-  redirect("/dashboard");
+  redirect(await destinationFor(data.user.id));
 }
 
 export async function verifyEmailAction(formData: FormData) {
@@ -46,7 +47,15 @@ export async function verifyEmailAction(formData: FormData) {
   if (!email || !/^\d{6}$/.test(otp)) fail(`/verify-email?email=${encodeURIComponent(email)}`, "Enter the six digit code from your email.");
   const { data, error } = await (await auth()).verifyEmail({ email, otp });
   if (error || !data?.user) fail(`/verify-email?email=${encodeURIComponent(email)}`, error?.message ?? "That code could not be verified.");
-  redirect("/dashboard");
+  redirect(await destinationFor(data.user.id));
+}
+
+async function destinationFor(userId: string) {
+  try {
+    return (await getUserCampaign(userId)) ? "/dashboard" : "/create-campaign";
+  } catch {
+    return "/create-campaign?error=campaign_lookup";
+  }
 }
 
 export async function googleSignInAction() {
