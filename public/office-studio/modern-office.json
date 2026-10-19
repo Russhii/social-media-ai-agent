@@ -1,0 +1,12 @@
+{
+  "id": "modern-office",
+  "name": "Modern Office",
+  "background": "/offices/modern-office.png",
+  "canvas": { "width": 1536, "height": 1024 },
+  "agents": [
+    { "id": "research", "name": "Research Agent", "emoji": "🔎", "character": "🤖", "x": 34, "y": 39, "animation": "researching", "accent": "blue" },
+    { "id": "creator", "name": "Creator Agent", "emoji": "🎨", "character": "🧑‍🎨", "x": 72, "y": 49, "animation": "creating", "accent": "violet" },
+    { "id": "scheduler", "name": "Scheduler Agent", "emoji": "🗓️", "character": "🤖", "x": 33, "y": 68, "animation": "typing", "accent": "mint" },
+    { "id": "analytics", "name": "Analytics Agent", "emoji": "📊", "character": "🧑‍💻", "x": 71, "y": 82, "animation": "analyzing", "accent": "amber" }
+  ]
+}
